@@ -46,19 +46,19 @@ class FG_eval {
     fg[0] = 0;
 
     for (size_t t = 0; t < N; t++){
-      fg[0] += 300*CppAD::pow(vars[cte_start + t], 2);
-      fg[0] += 100*CppAD::pow(vars[epsi_start + t], 2);
-      fg[0] += 50CppAD::pow(vars[v_start + t] - 35, 2);
+      fg[0] += 100*CppAD::pow(vars[cte_start + t], 2);
+      fg[0] += 10*CppAD::pow(vars[epsi_start + t], 2);
+      fg[0] += 10*CppAD::pow(vars[v_start + t] - 50, 2);
     }
 
     for (size_t t = 0; t < N-1; t++){
-      fg[0] += 50*CppAD::pow(vars[delta_start + t], 2);
+      fg[0] += 60*CppAD::pow(vars[delta_start + t], 2);
       fg[0] += 20*CppAD::pow(vars[a_start + t], 2);
     }
 
     for (size_t t = 0; t < N-2; t++){
-      fg[0] += 400*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
-      fg[0] += 100*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
+      fg[0] += 200*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
+      fg[0] += 140*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
     }
 
     fg[1 + x_start] = vars[x_start];
@@ -87,8 +87,8 @@ class FG_eval {
       AD<double> delta0 = vars[delta_start + t - 1];
       AD<double> a0 = vars[a_start + t - 1];
 
-      AD<double> f0 = coeffs[0] + coeffs[1] * x0;
-      AD<double> psides0 = CppAD::atan(coeffs[1]);
+      AD<double> f0 = coeffs[0] + coeffs[1] * x0 + coeffs[2] * x0 * x0 + coeffs[3] * x0 * x0 * x0;
+      AD<double> psides0 = CppAD::atan(coeffs[1] + 2 * coeffs[2] * x0 + 3 * coeffs[3] * x0 * x0);
 
       // Setting up the model constraints
       fg[1 + x_start + t] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
