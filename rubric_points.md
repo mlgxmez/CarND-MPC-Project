@@ -18,6 +18,8 @@ The actuators are:
 
 And the model is defined with the following equations:
 
+![Equations of the kinematic model](/img/model.png)
+
 Since we know the behavior of the car depending on the input values of the actuators fed into the model. We can estimate those subject to minimizing a cost function. Multiplying each cost by a factor we can achieve that the steering wheel turns smoothly.
 
 ### Time elapsed and length duration
